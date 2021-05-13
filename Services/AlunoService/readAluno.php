@@ -6,7 +6,6 @@ include_once "../../DAO/AlunoDAO.php";
 try {
 
     $dtos = AlunoDAO::read('', '');
-    
     if (isset($dtos)) {
         echo json_encode($dtos);
     } else {

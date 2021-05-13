@@ -5,9 +5,9 @@ var editing_id;
 $().ready(async function () {
     table = $('#my_table').DataTable({
         "columnDefs": [
-            {"targets": [0,1], "visible": false},
-            {"targets": [0,1], "ordenable": false},
-            {"targets": [0,1], "searchable": false},
+            {"targets": [0, 1], "visible": false},
+            {"targets": [0, 1], "ordenable": false},
+            {"targets": [0, 1], "searchable": false},
             {"targets": 5, "responsivePriority": 1},
             {"targets": 2, "responsivePriority": 2},
             {"targets": 4, "responsivePriority": 3},
@@ -38,6 +38,11 @@ $().ready(async function () {
         "order": [[1, "asc"]]
 
     });
+
+    $('.cpf').mask('000.000.000-00', {reverse: true});
+    $('.telefone').mask('(00) 0000-0000');
+    $('.celular').mask('(00) 00000-0000');
+
     $("#modalFormAluno").validate({
         rules: {
             nome: {
@@ -124,17 +129,15 @@ function edit_it(caller) {
     let data = table.row($(caller).closest('tr')).data();
 
     limpaModal();
-    //console.log(data);
     document.getElementById('nome').value = data[2];
-    document.getElementById('data_nascimento').value = data[3];
+    document.getElementById('data_nascimento').value = FormataStringData(data[3]);
     document.getElementById('cpf').value = data[4];
     document.getElementById('telefone').value = data[5];
     document.getElementById('celular').value = data[6];
     document.getElementById('curso').value = data[0];
 
     editing_id = data[1];
-    
-    console.log(data)
+
 
     $('#modal').modal();
 }
@@ -143,7 +146,7 @@ function delete_it(caller) {
     //cria variavel data e armazena nela o conteudo pega naquela tr(linha) vetor de elementos
     let data = table.row($(caller).closest('tr')).data();
     //a variavel recebe o elemento que esta na posição 0 que é o id 
-    editing_id = data[0];
+    editing_id = data[1];
     //chama bootbox
     bootbox.confirm({
         title: "Excluir?",
@@ -206,14 +209,14 @@ function create() {
         data: {data: JSON.stringify(obj)},
         success: function (response) {
             //vai rodar aqui se der certo
-            console.log(response);
+//            console.log(response);
             $('#alerta_sucesso').addClass('show');
 
             read();
         },
         error: function (error) {
             //roda aqui se der errado
-            console.log(error);
+//            console.log(error);
             document.getElementById('alerta_erro').innerHTML = error.responseText;
             $('#alerta_erro').addClass('show');
 
@@ -250,14 +253,14 @@ function update() {
         data: {data: JSON.stringify(obj)},
         success: function (response) {
             //vai rodar aqui se der certo
-            console.log(response);
+//            console.log(response);
             $('#alerta_sucesso').addClass('show');
 
             read();
         },
         error: function (error) {
             //roda aqui se der errado
-            console.log(error);
+//            console.log(error);
             document.getElementById('alerta_erro').innerHTML = error.responseText;
             $('#alerta_erro').addClass('show');
 
@@ -310,8 +313,6 @@ function deleta() {
 
     obj.id = editing_id;
 
-
-
     removeAlertas();
 
 
@@ -325,7 +326,7 @@ function deleta() {
         data: {data: JSON.stringify(obj)},
         success: function (response) {
             //vai rodar aqui se der certo
-            console.log(response);
+//            console.log(response);
             $('#alerta_sucesso').addClass('show');
 
             read();
@@ -363,11 +364,9 @@ function read() {
             //console.log(response);
             let dados = JSON.parse(response);
             parseData(dados);
-
         },
         error: function (error) {
             //roda aqui se der errado
-            console.log(error);
             document.getElementById('alerta_erro').innerHTML = error.responseText;
             $('#alerta_erro').addClass('show');
 
@@ -380,13 +379,22 @@ function read() {
 
 }
 
+function FormataStringData(data) {
+    var dia = data.split("/")[0];
+    var mes = data.split("/")[1];
+    var ano = data.split("/")[2];
+
+    return ano + '-' + ("0" + mes).slice(-2) + '-' + ("0" + dia).slice(-2);
+    // Utilizo o .slice(-2) para garantir o formato com 2 digitos.
+}
+
 
 //parse
 function parseData(dados) {
     table.clear().draw();
     var lines = Array();
     dados.forEach(function (object, key) {
-        lines[key] = [object.curso_id, object.id, object.nome, object.data_nascimento, object.cpf, object.telefone, object.celular, object.curso_nome, object.data_cadastro, '<img title="editar" src="./img/edit.png" onclick="edit_it(this)" class="img_table"> &nbsp; <img title="remover" src="./img/remove.png" onclick="delete_it(this)" class="img_table">'];
+        lines[key] = [object.curso_id.trim(), object.id.trim(), object.nome.trim(), object.data_nascimento.trim(), object.cpf.trim(), object.telefone.trim(), object.celular.trim(), object.curso_nome.trim(), object.data_cadastro.trim(), '<img title="editar" src="./img/edit.png" onclick="edit_it(this)" class="img_table"> &nbsp; <img title="remover" src="./img/remove.png" onclick="delete_it(this)" class="img_table">'];
     });
     table.rows.add(lines).draw(false);
     table.columns.adjust().responsive.recalc();

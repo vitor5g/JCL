@@ -12,7 +12,6 @@
 
         <!-- Add to homescreen for Chrome on Android -->
         <meta name="mobile-web-app-capable" content="yes">
-        <link rel="icon" sizes="192x192" href="images/android-desktop.png">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
 
@@ -26,7 +25,7 @@
         <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
         <meta name="msapplication-TileColor" content="#3372DF">
 
-        <link rel="shortcut icon" href="img/icecream-64.png">
+        <link rel="shortcut icon" href="img/logo2.jpg">
 
 
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
@@ -43,8 +42,7 @@
         <script src="js/jquery-3.3.1.js"></script>
         <script src="js/jquery.validate.min.js"></script>
         <script src="js/additional-methods.min.js"></script>
-        <script src="js/jquery.maskMoney.js"></script>
-        <script src="js/jquery.maskMoney.min.js"></script>
+        <script src="js/jquery.mask.js"></script>
 
         <script src="js/bootstrap.js"></script>
         <script src="js/jquery.dataTables.min.js"></script>
@@ -54,7 +52,31 @@
         <script src="js/bootbox.locales.min.js"></script>
 
         <script>
-            
+            window.onload = function () {
+                $.ajax({
+                    url: "pages/aluno.html",
+                    cache: false,
+
+                    //Inserindo imagem de carregamento
+                    beforeSend: function () {
+                        //Aqui adicionas o loader
+                        $(".mainBody").html('<div id="p2" class="mdl-progress mdl-js-progress mdl-progress__indeterminate" style="margin-top: 40%; margin-left: 25%; ;"></div>');
+                    },
+
+                    success: function (result) {
+                        //$('#ModalAdicionar').modal('hide');
+
+                        $(".mainBody").html(result);
+                    },
+
+                    error: function (xhr, err) {
+                        //$('#ModalAdicionar').modal('hide');
+                        $('.content-wrapper').html('<center><span style="color:red">' + formatErrorMessage(xhr, err) + '</span></center>');
+                    }
+                });
+            };
+
+
             $(document).on('click', '.mdl-navigation__link', function (event) {
 
                 event.preventDefault();
@@ -97,7 +119,7 @@
 
             <div class="demo-drawer mdl-layout__drawer mdl-color--teal-600 mdl-color-text--blue-grey-50">
                 <header class="demo-drawer-header" style="padding-left: 26%">
-                    <!--<a href="index.html"><img src="img/food-truck-512.png" class="demo-avatar"></a>-->
+                    <a href="index.html"><img src="img/logo2.jpg" class="demo-avatar"></a>
 
                 </header>
                 <nav class="demo-navigation mdl-navigation mdl-color--grey-300">

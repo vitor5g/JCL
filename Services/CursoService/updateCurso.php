@@ -10,6 +10,8 @@ try {
     $dto = new Curso();
 
     $dto->setNome(trim($data->nome));
+    $dto->setId(trim($data->id));
+    
 
    if (empty($dto->getNome())) {
         throw new Exception("Por favor preencha todos os campos obrigatórios");

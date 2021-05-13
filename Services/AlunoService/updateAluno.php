@@ -19,6 +19,10 @@ try {
     $dto->setTelefone(trim($data->telefone));
     $dto->setCelular(trim($data->celular));
     $dto->setCurso_id(trim($data->curso_id));
+    $dto->setId($data->id);
+    
+    var_dump($dto);
+    
 
     if (empty($dto->getNome()) || empty($dto->getData_nascimento()) || empty($dto->getCpf()) || empty($dto->getCelular()) || empty($dto->getCurso_id())) {
         throw new Exception("Por favor preencha todos os campos obrigatórios");

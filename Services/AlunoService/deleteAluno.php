@@ -10,7 +10,6 @@ try {
     $dto = new Aluno();
 
     $dto->setId($data->id);
-    var_dump($dto);
 
     AlunoDAO::delete($dto);
     

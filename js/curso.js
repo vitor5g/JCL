@@ -158,7 +158,7 @@ function create() {
         data: { data: JSON.stringify(obj) },
         success: function(response) {
             //vai rodar aqui se der certo
-            console.log(response);
+//            console.log(response);
             $('#alerta_sucesso').addClass('show');
             read();
         },
@@ -190,7 +190,7 @@ function update() {
         data: { data: JSON.stringify(obj) },
         success: function(response) {
             //vai rodar aqui se der certo
-            console.log(response);
+//            console.log(response);
             $('#alerta_sucesso').addClass('show');
             read();
         },
@@ -221,7 +221,7 @@ function deleta() {
         data: { data: JSON.stringify(obj) },
         success: function(response) {
             //vai rodar aqui se der certo
-            console.log(response);
+//            console.log(response);
             $('#alerta_sucesso').addClass('show');
             read();
         },
@@ -254,7 +254,6 @@ function read() {
             //console.log(response);
             let dados = JSON.parse(response);
             parseData(dados);
-            console.log(dados)
         },
         error: function(error) {
             //roda aqui se der errado
@@ -275,7 +274,7 @@ function parseData(dados) {
     table.clear().draw();
     var lines = Array();
     dados.forEach(function(object, key) {
-        lines[key] = [object.id, object.nome, '<img title="editar" src="./img/edit.png" onclick="edit_it(this)" class="img_table"> &nbsp;'];
+        lines[key] = [object.id.trim(), object.nome.trim(), '<img title="editar" src="./img/edit.png" onclick="edit_it(this)" class="img_table"> &nbsp;'];
     });
     table.columns.adjust().responsive.recalc();
     table.rows.add(lines).draw(false);

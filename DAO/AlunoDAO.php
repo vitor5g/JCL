@@ -86,7 +86,7 @@ class AlunoDAO {
             //cria variavel $db que recebe a conexão com o BD
             $db = Conexao::getConexao();
             //cria uma variavel $str que recebe o SQL para realizar o SELECT no BD
-            $str = "SELECT *, curso.id AS curso_id, curso.nome AS curso_nome, aluno.id AS id FROM aluno INNER JOIN curso ON curso.id = aluno.curso_id;  ";
+            $str = "SELECT *, curso.id AS curso_id, curso.nome AS curso_nome, aluno.id AS id, TO_CHAR(aluno.data_cadastro, 'dd/mm/yyyy HH24:MI:SS') AS data_cadastro, TO_CHAR(aluno.data_nascimento, 'dd/mm/yyyy') AS data_nascimento, aluno.nome AS nome FROM aluno INNER JOIN curso ON curso.id = aluno.curso_id;  ";
             //if que verifica se a variavel $filro é diferente de vazio
             if ($filtro != "") {
                 //caso $filtro não seja diferente de vazio adiciona string a variavel $str
